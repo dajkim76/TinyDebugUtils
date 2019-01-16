@@ -1,5 +1,7 @@
 package com.mdiwebma.library
 
+import android.util.Log
+
 object DebugUtils {
 
     @JvmStatic
@@ -42,12 +44,12 @@ object DebugUtils {
 
     @JvmStatic
     fun exception(throwable: Throwable) {
-        DebugMessageHandler.exception(StackTracer.getStackTraceString(throwable.stackTrace))
+        DebugMessageHandler.exception(Log.getStackTraceString(throwable))
     }
 
     @JvmStatic
     fun exception(message: String, throwable: Throwable) {
-        DebugMessageHandler.exception("$message!\n\n" + StackTracer.getStackTraceString(throwable.stackTrace))
+        DebugMessageHandler.exception("$message!\n\n" + Log.getStackTraceString(throwable))
     }
 
     @JvmStatic

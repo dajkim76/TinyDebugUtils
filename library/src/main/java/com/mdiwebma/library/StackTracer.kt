@@ -10,16 +10,12 @@ object StackTracer {
     )
 
     @JvmStatic
-    fun getCurrentStackTraceString(): String =
-        getStackTraceString(Thread.currentThread().stackTrace)
-
-    @JvmStatic
-    fun getStackTraceString(stackTrace: Array<StackTraceElement>): String {
+    fun getCurrentStackTraceString(): String {
         val sb = StringBuilder()
-        for (element in stackTrace) {
+        for (element in Thread.currentThread().stackTrace) {
             val trace = element.toString()
             if (ignoredStackList.find { trace.startsWith(it) }.isNullOrEmpty()) {
-                sb.append(trace + "\n")
+                sb.append(trace).append("\n")
             }
         }
         return sb.toString()
