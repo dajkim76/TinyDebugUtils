@@ -1,7 +1,6 @@
 package com.mdiwebma.library
 
 import android.app.Activity
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -26,14 +25,7 @@ internal object CrashHandler {
                 DebugMessageViewerActivity.createIntent(context, "Crashed!", contentText)
             val pendingIntent =
                 PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Notification.Builder(context, context.packageName)
-            } else {
-                Notification.Builder(context)
-            }
-
-            val notification = builder
+            val notification = TinyDebugUtils.createNotificationBuilder(context)
                 .setSmallIcon(R.drawable.ic_stat_clear)
                 .setContentTitle("Crashed!")
                 .setContentText(contentText)

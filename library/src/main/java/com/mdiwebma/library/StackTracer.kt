@@ -1,6 +1,6 @@
 package com.mdiwebma.library
 
-object StackTracer {
+internal object StackTracer {
 
     private val ignoredStackList = arrayOf(
         "dalvik.system.VMStack.",

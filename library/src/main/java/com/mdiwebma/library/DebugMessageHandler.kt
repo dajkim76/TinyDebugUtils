@@ -2,10 +2,8 @@ package com.mdiwebma.library
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -123,13 +121,7 @@ internal object DebugMessageHandler {
             DebugMessageViewerActivity.createIntent(context, data.title, data.message)
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, context.packageName)
-        } else {
-            Notification.Builder(context)
-        }
-
-        val notification = builder
+        val notification = TinyDebugUtils.createNotificationBuilder(context)
             .setSmallIcon(R.drawable.ic_stat_clear)
             .setContentTitle(data.title)
             .setContentText(data.message)
