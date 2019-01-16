@@ -14,37 +14,65 @@ import android.widget.Toast
 
 internal object DebugMessageHandler {
 
-    private const val WHAT_SHOW_TEXT = 0
-    private const val WHAT_SHOW_TOAST = 1
-    private const val WHAT_SHOW_NOT_REACHED = 2
-    private const val WHAT_SHOW_NOTIFY = 3
+    private const val WHAT_ALERT = 0
+    private const val WHAT_TOAST = 1
+    private const val WHAT_NOT_REACHED = 2
+    private const val WHAT_NOTIFY = 3
 
     private val handler = MessageHandler(Looper.getMainLooper())
+
+    class Data {
+        var title = "Debug!"
+        var message: String?
+
+        constructor(message: String?) {
+            this.message = message
+        }
+
+        constructor(message: String?, title: String) {
+            this.message = message
+            this.title = title
+        }
+    }
 
     class MessageHandler(looper: Looper) : Handler(looper) {
 
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                WHAT_SHOW_TEXT -> alertImpl(msg.obj as? String)
-                WHAT_SHOW_TOAST -> toastImpl(msg.obj as? String)
-                WHAT_SHOW_NOT_REACHED -> notReachedImpl(msg.obj as? String)
-                WHAT_SHOW_NOTIFY -> notifyImpl(msg.obj as? String)
+                WHAT_ALERT -> alertImpl(msg.obj as Data)
+                WHAT_TOAST -> toastImpl(msg.obj as Data)
+                WHAT_NOT_REACHED -> notReachedImpl(msg.obj as Data)
+                WHAT_NOTIFY -> notifyImpl(msg.obj as Data)
             }
         }
     }
 
-    fun alert(message: String?) {
+    fun checkState(message: String) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_SHOW_TEXT
-        msg.obj = message
+        msg.what = WHAT_NOT_REACHED
+        msg.obj = Data(message, "CheckState!")
         handler.sendMessage(msg)
     }
 
-    private fun alertImpl(message: String?) {
-        val activity = LiveActivityHolder.liveActivity ?: return toastImpl(message)
+    fun checkNotNull(message: String) {
+        val msg = handler.obtainMessage()
+        msg.what = WHAT_NOT_REACHED
+        msg.obj = Data(message, "CheckNotNull!")
+        handler.sendMessage(msg)
+    }
+
+    fun alert(message: String?) {
+        val msg = handler.obtainMessage()
+        msg.what = WHAT_ALERT
+        msg.obj = Data(message, "Alert!")
+        handler.sendMessage(msg)
+    }
+
+    private fun alertImpl(data: Data) {
+        val activity = LiveActivityHolder.liveActivity ?: return toastImpl(data)
         AlertDialog.Builder(activity)
-            .setTitle("Debug!")
-            .setMessage(message)
+            .setTitle(data.title)
+            .setMessage(data.message)
             .setCancelable(false)
             .setPositiveButton("OK", null)
             .show()
@@ -52,44 +80,47 @@ internal object DebugMessageHandler {
 
     fun toast(message: String?) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_SHOW_TOAST
-        msg.obj = message
+        msg.what = WHAT_TOAST
+        msg.obj = Data(message)
         handler.sendMessage(msg)
     }
 
-    private fun toastImpl(message: String?) {
-        Toast.makeText(ApplicationHolder.application, message, Toast.LENGTH_SHORT).show()
+    private fun toastImpl(data: Data) {
+        Toast.makeText(ApplicationHolder.application, data.message, Toast.LENGTH_SHORT).show()
     }
 
     fun notReached(message: String?) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_SHOW_NOT_REACHED
-        msg.obj = message
+        msg.what = WHAT_NOT_REACHED
+        msg.obj = Data(message, "NotReached!")
         handler.sendMessage(msg)
     }
 
-    private fun notReachedImpl(message: String?) {
-        // TODO make notification
-        val activity = LiveActivityHolder.liveActivity ?: return toastImpl(message)
-        AlertDialog.Builder(activity)
-            .setTitle("Debug!")
-            .setMessage(message)
-            .setCancelable(false)
-            .setPositiveButton("OK", null)
-            .show()
+    private fun notReachedImpl(data: Data) {
+        if (LiveActivityHolder.liveActivity != null) {
+            AlertDialog.Builder(LiveActivityHolder.liveActivity)
+                .setTitle(data.title)
+                .setMessage(data.message)
+                .setCancelable(false)
+                .setPositiveButton("OK", null)
+                .show()
+        } else {
+            toast(data.title + "\n\n" + data.message)
+            notifyImpl(data)
+        }
     }
 
-    fun notify(message: String) {
+    fun notify(message: String?) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_SHOW_NOTIFY
-        msg.obj = message
+        msg.what = WHAT_NOTIFY
+        msg.obj = Data(message, "Info!")
         handler.sendMessage(msg)
     }
 
-    private fun notifyImpl(message: String?) {
+    private fun notifyImpl(data: Data) {
         val context = ApplicationHolder.application!!.applicationContext
         val intent =
-            DebugMessageViewerActivity.createIntent(context, message)
+            DebugMessageViewerActivity.createIntent(context, data.title, data.message)
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -100,14 +131,13 @@ internal object DebugMessageHandler {
 
         val notification = builder
             .setSmallIcon(R.drawable.ic_stat_clear)
-            .setTicker("Debug!")
-            .setContentTitle("Debug!")
-            .setContentText(message)
+            .setContentTitle(data.title)
+            .setContentText(data.message)
             .setContentIntent(pendingIntent)
             .build()
 
         val notificationManager =
             context.getSystemService(Activity.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(message.hashCode(), notification)
+        notificationManager.notify(data.message.hashCode(), notification)
     }
 }

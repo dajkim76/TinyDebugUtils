@@ -28,7 +28,7 @@ object ApplicationHolder {
     private fun createDefaultNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                context.getPackageName(),
+                context.packageName,
                 CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_LOW
             )

@@ -16,7 +16,7 @@ internal object CrashHandler {
             val context = ApplicationHolder.application!!.applicationContext
             val stackTraceString = StackTracer.getStackTraceString(throwable.stackTrace)
             val intent =
-                DebugMessageViewerActivity.createIntent(context, stackTraceString)
+                DebugMessageViewerActivity.createIntent(context, "Crashed!", stackTraceString)
             val pendingIntent =
                 PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -28,10 +28,10 @@ internal object CrashHandler {
 
             val notification = builder
                 .setSmallIcon(R.drawable.ic_stat_clear)
-                .setTicker("Debug!")
                 .setContentTitle("Crashed!")
                 .setContentText(stackTraceString)
                 .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .build()
 
             val notificationManager =

@@ -5,34 +5,34 @@ object DebugUtils {
     @JvmStatic
     fun checkState(state: Boolean) {
         if (!state) {
-            DebugMessageHandler.alert("check failed\n\n" + StackTracer.getCurrentStackTraceString())
+            DebugMessageHandler.checkState(StackTracer.getCurrentStackTraceString())
         }
     }
 
     @JvmStatic
     fun checkState(state: Boolean, message: String) {
         if (!state) {
-            DebugMessageHandler.alert("check failed\n$message\n\n" + StackTracer.getCurrentStackTraceString())
+            DebugMessageHandler.checkState("$message\n\n" + StackTracer.getCurrentStackTraceString())
         }
     }
 
     @JvmStatic
     fun checkNotNull(any: Any?) {
         if (any == null) {
-            DebugMessageHandler.alert("checkNotNull failed\n\n" + StackTracer.getCurrentStackTraceString())
+            DebugMessageHandler.checkNotNull(StackTracer.getCurrentStackTraceString())
         }
     }
 
     @JvmStatic
     fun checkNotNull(any: Any?, message: String) {
         if (any == null) {
-            DebugMessageHandler.alert("checkNotNull failed\n$message\n\n" + StackTracer.getCurrentStackTraceString())
+            DebugMessageHandler.checkNotNull("$message\n\n" + StackTracer.getCurrentStackTraceString())
         }
     }
 
     @JvmStatic
     fun notReached() {
-        DebugMessageHandler.notReached("notReached!\n\n" + StackTracer.getCurrentStackTraceString())
+        DebugMessageHandler.notReached(StackTracer.getCurrentStackTraceString())
     }
 
     @JvmStatic
@@ -42,7 +42,7 @@ object DebugUtils {
 
     @JvmStatic
     fun notReached(throwable: Throwable) {
-        DebugMessageHandler.notReached("notReached!\n\n" + StackTracer.getStackTraceString(throwable.stackTrace))
+        DebugMessageHandler.notReached(StackTracer.getStackTraceString(throwable.stackTrace))
     }
 
     @JvmStatic
@@ -61,7 +61,7 @@ object DebugUtils {
     }
 
     @JvmStatic
-    fun notify(message: String) {
+    fun notify(message: String?) {
         DebugMessageHandler.notify(message)
     }
 }

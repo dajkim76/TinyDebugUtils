@@ -10,11 +10,13 @@ class DebugMessageViewerActivity : Activity() {
 
     companion object {
         private const val EXTRA_MESSAGE = "message"
+        private const val EXTRA_TITLE = "title"
 
         @JvmStatic
-        fun createIntent(conext: Context, message: String?) =
+        fun createIntent(conext: Context, title: String, message: String?) =
             Intent(conext, DebugMessageViewerActivity::class.java)
                 .putExtra(EXTRA_MESSAGE, message)
+                .putExtra(EXTRA_TITLE, title)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
@@ -22,7 +24,7 @@ class DebugMessageViewerActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         AlertDialog.Builder(this)
-            .setTitle("Debug!")
+            .setTitle(intent.getStringExtra(EXTRA_TITLE))
             .setMessage(intent.getStringExtra(EXTRA_MESSAGE))
             .setCancelable(false)
             .setOnDismissListener { finish() }
