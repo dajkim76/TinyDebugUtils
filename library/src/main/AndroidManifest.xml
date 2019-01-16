@@ -1,2 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mdiwebma.library" />
+    package="com.mdiwebma.library">
+
+    <application>
+        <activity
+            android:name=".DebugMessageViewerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
+            android:label="DebugMessageViewer"
+            android:screenOrientation="portrait" />
+    </application>
+</manifest>
