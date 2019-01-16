@@ -31,23 +31,23 @@ object DebugUtils {
     }
 
     @JvmStatic
-    fun notReached() {
-        DebugMessageHandler.notReached(StackTracer.getCurrentStackTraceString())
+    fun exception() {
+        DebugMessageHandler.exception(StackTracer.getCurrentStackTraceString())
     }
 
     @JvmStatic
-    fun notReached(message: String) {
-        DebugMessageHandler.notReached("$message\n\n" + StackTracer.getCurrentStackTraceString())
+    fun exception(message: String) {
+        DebugMessageHandler.exception("$message\n\n" + StackTracer.getCurrentStackTraceString())
     }
 
     @JvmStatic
-    fun notReached(throwable: Throwable) {
-        DebugMessageHandler.notReached(StackTracer.getStackTraceString(throwable.stackTrace))
+    fun exception(throwable: Throwable) {
+        DebugMessageHandler.exception(StackTracer.getStackTraceString(throwable.stackTrace))
     }
 
     @JvmStatic
-    fun notReached(message: String, throwable: Throwable) {
-        DebugMessageHandler.notReached("$message!\n\n" + StackTracer.getStackTraceString(throwable.stackTrace))
+    fun exception(message: String, throwable: Throwable) {
+        DebugMessageHandler.exception("$message!\n\n" + StackTracer.getStackTraceString(throwable.stackTrace))
     }
 
     @JvmStatic

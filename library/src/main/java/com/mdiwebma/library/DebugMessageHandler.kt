@@ -16,7 +16,7 @@ internal object DebugMessageHandler {
 
     private const val WHAT_ALERT = 0
     private const val WHAT_TOAST = 1
-    private const val WHAT_NOT_REACHED = 2
+    private const val WHAT_EXCEPTION = 2
     private const val WHAT_NOTIFY = 3
 
     private val handler = MessageHandler(Looper.getMainLooper())
@@ -41,7 +41,7 @@ internal object DebugMessageHandler {
             when (msg.what) {
                 WHAT_ALERT -> alertImpl(msg.obj as Data)
                 WHAT_TOAST -> toastImpl(msg.obj as Data)
-                WHAT_NOT_REACHED -> notReachedImpl(msg.obj as Data)
+                WHAT_EXCEPTION -> exceptionImpl(msg.obj as Data)
                 WHAT_NOTIFY -> notifyImpl(msg.obj as Data)
             }
         }
@@ -49,14 +49,14 @@ internal object DebugMessageHandler {
 
     fun checkState(message: String) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_NOT_REACHED
+        msg.what = WHAT_EXCEPTION
         msg.obj = Data(message, "CheckState!")
         handler.sendMessage(msg)
     }
 
     fun checkNotNull(message: String) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_NOT_REACHED
+        msg.what = WHAT_EXCEPTION
         msg.obj = Data(message, "CheckNotNull!")
         handler.sendMessage(msg)
     }
@@ -89,14 +89,14 @@ internal object DebugMessageHandler {
         Toast.makeText(ApplicationHolder.application, data.message, Toast.LENGTH_SHORT).show()
     }
 
-    fun notReached(message: String?) {
+    fun exception(message: String?) {
         val msg = handler.obtainMessage()
-        msg.what = WHAT_NOT_REACHED
-        msg.obj = Data(message, "NotReached!")
+        msg.what = WHAT_EXCEPTION
+        msg.obj = Data(message, "Exception!")
         handler.sendMessage(msg)
     }
 
-    private fun notReachedImpl(data: Data) {
+    private fun exceptionImpl(data: Data) {
         if (LiveActivityHolder.liveActivity != null) {
             AlertDialog.Builder(LiveActivityHolder.liveActivity)
                 .setTitle(data.title)
