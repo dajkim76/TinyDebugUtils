@@ -50,6 +50,8 @@ internal object DebugMessageHandler {
         msg.what = WHAT_EXCEPTION
         msg.obj = Data(message, "CheckState!")
         handler.sendMessage(msg)
+
+        FileLog.write("CheckState!", message)
     }
 
     fun checkNotNull(message: String) {
@@ -57,6 +59,8 @@ internal object DebugMessageHandler {
         msg.what = WHAT_EXCEPTION
         msg.obj = Data(message, "CheckNotNull!")
         handler.sendMessage(msg)
+
+        FileLog.write("CheckNotNull!", message)
     }
 
     fun alert(message: String?) {
@@ -92,6 +96,8 @@ internal object DebugMessageHandler {
         msg.what = WHAT_EXCEPTION
         msg.obj = Data(message, "Exception!")
         handler.sendMessage(msg)
+
+        FileLog.write("Exception!", message)
     }
 
     private fun exceptionImpl(data: Data) {
