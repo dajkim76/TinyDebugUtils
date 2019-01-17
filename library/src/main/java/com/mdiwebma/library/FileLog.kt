@@ -50,7 +50,7 @@ object FileLog {
         val directoryName =
             "log-" + context.packageName.substring(context.packageName.lastIndexOf('.') + 1)
 
-        logFile = if (FileUtils.hasExternalStoragePermission()) {
+        logFile = if (FileUtils.isExternalStorageWritable()) {
             FileUtils.getExternalStorageFile(directoryName, sb.toString())
         } else {
             FileUtils.getAppExternalCacheFile(directoryName, sb.toString())

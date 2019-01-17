@@ -10,7 +10,7 @@ import java.io.File
 internal object FileUtils {
 
     @JvmStatic
-    fun hasExternalStoragePermission(): Boolean {
+    fun isExternalStorageWritable(): Boolean {
         val context = ApplicationHolder.application!!
         return context.checkPermission(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -20,7 +20,7 @@ internal object FileUtils {
     }
 
     /**
-     * Return File("/sdcard/log-{PACKAGE}/log_{DATE}.txt")
+     * Return File("/sdcard/{directoryName}/{fileName}")
      */
     @JvmStatic
     fun getExternalStorageFile(directoryName: String, fileName: String): File {
@@ -30,7 +30,7 @@ internal object FileUtils {
     }
 
     /**
-     * Return File("/sdcard/Android/data/{PACKAGE_ID}/cache/log_{PACKAGE}/log_{DATE}.txt")
+     * Return File("/sdcard/Android/data/{PACKAGE_ID}/cache/{directoryName}/{fileName}")
      */
     @JvmStatic
     fun getAppExternalCacheFile(directoryName: String, fileName: String): File {

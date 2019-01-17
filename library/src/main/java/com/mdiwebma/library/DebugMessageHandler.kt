@@ -17,6 +17,10 @@ internal object DebugMessageHandler {
     private const val WHAT_EXCEPTION = 2
     private const val WHAT_NOTIFY = 3
 
+    private const val TITLE_CHECK_STATE = "CheckState!"
+    private const val TITLE_CHECK_NONNULL = "CheckNonNull!"
+    private const val TITLE_EXCEPTION = "Exception!"
+
     private val handler = MessageHandler(Looper.getMainLooper())
 
     class Data {
@@ -48,19 +52,19 @@ internal object DebugMessageHandler {
     fun checkState(message: String) {
         val msg = handler.obtainMessage()
         msg.what = WHAT_EXCEPTION
-        msg.obj = Data(message, "CheckState!")
+        msg.obj = Data(message, TITLE_CHECK_STATE)
         handler.sendMessage(msg)
 
-        FileLog.write("CheckState!", message)
+        DebugLog.f(TITLE_CHECK_STATE, message)
     }
 
     fun checkNotNull(message: String) {
         val msg = handler.obtainMessage()
         msg.what = WHAT_EXCEPTION
-        msg.obj = Data(message, "CheckNotNull!")
+        msg.obj = Data(message, TITLE_CHECK_NONNULL)
         handler.sendMessage(msg)
 
-        FileLog.write("CheckNotNull!", message)
+        DebugLog.f(TITLE_CHECK_NONNULL, message)
     }
 
     fun alert(message: String?) {
@@ -91,13 +95,13 @@ internal object DebugMessageHandler {
         Toast.makeText(ApplicationHolder.application, data.message, Toast.LENGTH_SHORT).show()
     }
 
-    fun exception(message: String?) {
+    fun exception(message: String) {
         val msg = handler.obtainMessage()
         msg.what = WHAT_EXCEPTION
-        msg.obj = Data(message, "Exception!")
+        msg.obj = Data(message, TITLE_EXCEPTION)
         handler.sendMessage(msg)
 
-        FileLog.write("Exception!", message)
+        DebugLog.f(TITLE_EXCEPTION, message)
     }
 
     private fun exceptionImpl(data: Data) {
@@ -122,7 +126,7 @@ internal object DebugMessageHandler {
     }
 
     private fun notifyImpl(data: Data) {
-        val context = ApplicationHolder.application!!.applicationContext
+        val context = ApplicationHolder.application!!
         val intent =
             DebugMessageViewerActivity.createIntent(context, data.title, data.message)
         val pendingIntent =

@@ -2,15 +2,20 @@ package com.mdiwebma.library
 
 import android.util.Log
 
+/**
+ * Print source line if msg is single line
+ * Adjust level (Don't print log if level is LEVEL_DISABLE)
+ * Write to log file if writeToFile is true
+ */
 object DebugLog {
 
-    const val LEVEL_NONE = 0
     const val LEVEL_VEBOSE = 1
     const val LEVEL_DEBUG = 2
     const val LEVEL_INFO = 3
     const val LEVEL_WARNING = 4
     const val LEVEL_ERROR = 5
     const val LEVEL_FATAL = 6
+    const val LEVEL_DISABLE = Int.MAX_VALUE
 
     @JvmStatic
     var level = LEVEL_VEBOSE
@@ -26,46 +31,60 @@ object DebugLog {
 
     @JvmStatic
     fun v(tag: String, msg: String, throwable: Throwable? = null) {
+        if (!BuildConfig.DEBUG) return
         log(LEVEL_VEBOSE, tag, msg, throwable)
     }
 
     @JvmStatic
     fun d(tag: String, msg: String, throwable: Throwable? = null) {
+        if (!BuildConfig.DEBUG) return
         log(LEVEL_DEBUG, tag, msg, throwable)
     }
 
     @JvmStatic
     fun i(tag: String, msg: String, throwable: Throwable? = null) {
+        if (!BuildConfig.DEBUG) return
         log(LEVEL_INFO, tag, msg, throwable)
     }
 
     @JvmStatic
     fun w(tag: String, msg: String, throwable: Throwable? = null) {
+        if (!BuildConfig.DEBUG) return
         log(LEVEL_WARNING, tag, msg, throwable)
     }
 
     @JvmStatic
     fun e(tag: String, msg: String, throwable: Throwable? = null) {
+        if (!BuildConfig.DEBUG) return
         log(LEVEL_ERROR, tag, msg, throwable)
     }
 
     @JvmStatic
-    fun fatal(tag: String, msg: String, throwable: Throwable? = null) {
+    fun f(tag: String, msg: String, throwable: Throwable? = null) {
+        if (!BuildConfig.DEBUG) return
         log(LEVEL_FATAL, tag, msg, throwable)
     }
 
-    private fun log(checkLevel: Int, tag: String, msg: String, throwable: Throwable? = null) {
-        if (BuildConfig.DEBUG && checkLevel >= level) {
+    /**
+     * Always print log. Ignore level and BuildConfig.DEBUG
+     */
+    @JvmStatic
+    fun t(tag: String, msg: String, throwable: Throwable? = null) {
+        log(Int.MAX_VALUE, tag, msg, throwable)
+    }
+
+    private fun log(logLevel: Int, tag: String, msg: String, throwable: Throwable? = null) {
+        if (logLevel >= level) {
             val trace = getTrace(msg)
-            when (checkLevel) {
+            when (logLevel) {
                 LEVEL_VEBOSE -> Log.v(tag, trace, throwable)
                 LEVEL_DEBUG -> Log.d(tag, trace, throwable)
                 LEVEL_INFO -> Log.i(tag, trace, throwable)
                 LEVEL_WARNING -> Log.w(tag, trace, throwable)
                 LEVEL_ERROR -> Log.e(tag, trace, throwable)
-                LEVEL_FATAL -> Log.e(tag, trace, throwable)
+                else -> Log.e(tag, trace, throwable)
             }
-            if (writeToFile) {
+            if (writeToFile || logLevel == LEVEL_FATAL) {
                 FileLog.write(tag, trace)
             }
         }
