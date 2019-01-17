@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-assumenosideeffects class com.mdiwebma.library.DebugUtils {
+	public static void *** (...);
+}
+
+-assumenosideeffects class com.mdiwebma.library.DebugLog {
+	public static void *** (...);
+}
