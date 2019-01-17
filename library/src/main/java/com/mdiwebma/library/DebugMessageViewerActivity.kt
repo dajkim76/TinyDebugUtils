@@ -35,7 +35,7 @@ class DebugMessageViewerActivity : Activity() {
             .setPositiveButton("OK", null)
             .setNegativeButton("Copy") { _, _ ->
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("label", intent.getStringExtra(EXTRA_TITLE))
+                val clip = ClipData.newPlainText("label", intent.getStringExtra(EXTRA_MESSAGE))
                 clipboard.primaryClip = clip
                 Toast.makeText(this@DebugMessageViewerActivity, "Done", Toast.LENGTH_SHORT).show()
             }
