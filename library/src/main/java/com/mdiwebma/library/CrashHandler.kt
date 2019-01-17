@@ -33,6 +33,9 @@ internal object CrashHandler {
                 .setAutoCancel(true)
                 .build()
 
+            FileLog.canWrite = true
+            FileLog.write("Crashed!", contentText)
+
             val notificationManager =
                 context.getSystemService(Activity.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(contentText.hashCode(), notification)
