@@ -68,9 +68,13 @@ internal object DebugMessageHandler {
     }
 
     fun alert(message: String?) {
+        alert("Alert!", message)
+    }
+
+    fun alert(title: String, message: String?) {
         val msg = handler.obtainMessage()
         msg.what = WHAT_ALERT
-        msg.obj = Data(message, "Alert!")
+        msg.obj = Data(message, title)
         handler.sendMessage(msg)
     }
 
