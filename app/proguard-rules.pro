@@ -27,3 +27,5 @@
 -assumenosideeffects class com.mdiwebma.library.DebugLog {
 	public static void *** (...);
 }
+
+-keepattributes SourceFile,LineNumberTable
