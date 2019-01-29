@@ -12,19 +12,19 @@ object ServerLog {
         get() = field && handler != null
 
     @JvmStatic
-    fun send(tag: String, message: String) {
-        handler?.send(tag, message)
+    fun send(tag: String, message: String, throwable: Throwable? = null) {
+        handler?.send(tag, message, throwable)
     }
 
     @JvmStatic
-    fun maybeSend(tag: String, message: String) {
+    fun maybeSend(tag: String, message: String, throwable: Throwable? = null) {
         if (canSend) {
-            handler?.send(tag, message)
+            handler?.send(tag, message, throwable)
         }
     }
 
     @JvmStatic
-    fun setSampling(percent: Float) {
+    fun setSamplingPercent(percent: Float) {
         canSend = when {
             percent <= 0f -> false
             percent >= 100f -> true

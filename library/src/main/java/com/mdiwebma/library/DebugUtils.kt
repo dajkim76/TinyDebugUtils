@@ -83,7 +83,7 @@ object DebugUtils {
         if (BuildConfig.DEBUG) {
             DebugMessageHandler.exception(Log.getStackTraceString(throwable))
         } else if (ServerLog.canSend) {
-            ServerLog.send(TAG_EXCEPTION, Log.getStackTraceString(throwable))
+            ServerLog.send(TAG_EXCEPTION, "", throwable)
         }
     }
 
@@ -92,7 +92,7 @@ object DebugUtils {
         if (BuildConfig.DEBUG) {
             DebugMessageHandler.exception("$message!\n\n" + Log.getStackTraceString(throwable))
         } else if (ServerLog.canSend) {
-            ServerLog.send(TAG_EXCEPTION, "$message!\n\n" + Log.getStackTraceString(throwable))
+            ServerLog.send(TAG_EXCEPTION, message, throwable)
         }
     }
 
