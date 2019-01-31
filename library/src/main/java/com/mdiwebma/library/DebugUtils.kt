@@ -9,10 +9,12 @@ object DebugUtils {
     private const val TAG_CHECK_NOT_NULL = "CheckNotNull!"
     private const val TAG_EXCEPTION = "Exception!"
 
+    @JvmStatic
+    var DEBUG = false
 
     @JvmStatic
     fun checkState(state: Boolean) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             if (!state) {
                 DebugMessageHandler.checkState(StackTracer.getCurrentStackTraceString())
             }
@@ -23,7 +25,7 @@ object DebugUtils {
 
     @JvmStatic
     fun checkState(state: Boolean, message: String) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             if (!state) {
                 DebugMessageHandler.checkState("$message\n\n" + StackTracer.getCurrentStackTraceString())
             }
@@ -37,7 +39,7 @@ object DebugUtils {
 
     @JvmStatic
     fun checkNotNull(any: Any?) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             if (any == null) {
                 DebugMessageHandler.checkNotNull(StackTracer.getCurrentStackTraceString())
             }
@@ -48,7 +50,7 @@ object DebugUtils {
 
     @JvmStatic
     fun checkNotNull(any: Any?, message: String) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             if (any == null) {
                 DebugMessageHandler.checkNotNull("$message\n\n" + StackTracer.getCurrentStackTraceString())
             }
@@ -62,7 +64,7 @@ object DebugUtils {
 
     @JvmStatic
     fun exception() {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.exception(StackTracer.getCurrentStackTraceString())
         } else if (ServerLog.canSend) {
             ServerLog.send(TAG_EXCEPTION, StackTracer.getCurrentStackTraceString())
@@ -71,7 +73,7 @@ object DebugUtils {
 
     @JvmStatic
     fun exception(message: String) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.exception("$message\n\n" + StackTracer.getCurrentStackTraceString())
         } else if (ServerLog.canSend) {
             ServerLog.send(TAG_EXCEPTION, "$message\n\n" + StackTracer.getCurrentStackTraceString())
@@ -80,7 +82,7 @@ object DebugUtils {
 
     @JvmStatic
     fun exception(throwable: Throwable) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.exception(Log.getStackTraceString(throwable))
         } else if (ServerLog.canSend) {
             ServerLog.send(TAG_EXCEPTION, "", throwable)
@@ -89,7 +91,7 @@ object DebugUtils {
 
     @JvmStatic
     fun exception(message: String, throwable: Throwable) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.exception("$message!\n\n" + Log.getStackTraceString(throwable))
         } else if (ServerLog.canSend) {
             ServerLog.send(TAG_EXCEPTION, message, throwable)
@@ -98,35 +100,35 @@ object DebugUtils {
 
     @JvmStatic
     fun toast(message: String?) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.toast(message)
         }
     }
 
     @JvmStatic
     fun alert(message: String?) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.alert(message)
         }
     }
 
     @JvmStatic
     fun alert(title: String, message: String?) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.alert(title, message)
         }
     }
 
     @JvmStatic
     fun notify(message: String?) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             DebugMessageHandler.notify(message)
         }
     }
 
     @JvmStatic
     fun checkMainThread() {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             if (Looper.myLooper() != Looper.getMainLooper()) {
                 DebugMessageHandler.exception("checkMainThread failed\n\n" + StackTracer.getCurrentStackTraceString())
             }

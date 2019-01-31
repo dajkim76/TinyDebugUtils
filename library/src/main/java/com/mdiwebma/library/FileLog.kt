@@ -14,7 +14,7 @@ import java.util.Locale
 object FileLog {
 
     @JvmStatic
-    var canWrite: Boolean = BuildConfig.DEBUG
+    var canWrite: Boolean = false
 
     private var logFile: File? = null
     private var fileOutputStream: FileOutputStream? = null

@@ -10,11 +10,13 @@ import android.os.Build
 object TinyDebugUtils {
 
     @JvmStatic
-    fun init(application: Application) {
+    fun init(application: Application, config: Config? = null) {
         ApplicationHolder.init(application)
         createDefaultNotificationChannel(application)
         LiveActivityHolder.init(application)
         CrashHandler.init()
+        initDebugConfig()
+        applyConfig(config)
     }
 
     private fun createDefaultNotificationChannel(context: Context) {
@@ -37,6 +39,72 @@ object TinyDebugUtils {
             Notification.Builder(context, getChannelId(context))
         } else {
             Notification.Builder(context)
+        }
+    }
+
+    class Config {
+        internal var debugUtilsEnable: Boolean? = null
+        internal var fileLogEnable: Boolean? = null
+        internal var debugLogEnable: Boolean? = null
+        internal var debugLogWriteToFile: Boolean? = null
+        internal var debugLogLevel: Int? = null
+        internal var serverLogEnable: Boolean? = null
+        internal var serverLogSamplingPercent: Float? = null
+        internal var serverLogHandler: ServerLogHandler? = null
+
+        fun debugUtilsEnable(enable: Boolean) = apply {
+            debugUtilsEnable = enable
+        }
+
+        fun fileLogEnable(enable: Boolean) = apply {
+            fileLogEnable = enable
+        }
+
+        fun debugLogEnable(enable: Boolean) = apply {
+            debugLogEnable = enable
+        }
+
+        fun debugLogWriteToFile(writeToFile: Boolean) = apply {
+            debugLogWriteToFile = writeToFile
+        }
+
+        fun debugLogLevel(level: Int) = apply {
+            debugLogLevel = level
+        }
+
+        fun serverLogEnable(enable: Boolean) = apply {
+            serverLogEnable = enable
+        }
+
+        fun serverLogSamplingPercent(percent: Float) = apply {
+            serverLogSamplingPercent = percent
+        }
+
+        fun serverLogHandler(handler: ServerLogHandler?) = apply {
+            serverLogHandler = handler
+        }
+    }
+
+    private fun initDebugConfig() {
+        DebugUtils.DEBUG = true
+        FileLog.canWrite = true
+        DebugLog.DEBUG = true
+        DebugLog.writeToFile = false
+        DebugLog.level = DebugLog.LEVEL_VEBOSE
+        ServerLog.canSend = false
+        ServerLog.setHandler(null)
+    }
+
+    private fun applyConfig(config: Config?) {
+        if (config != null) {
+            config.debugUtilsEnable?.let { DebugUtils.DEBUG = it }
+            config.fileLogEnable?.let { FileLog.canWrite = it }
+            config.debugLogEnable?.let { DebugLog.DEBUG = it }
+            config.debugLogWriteToFile?.let { DebugLog.writeToFile = it }
+            config.debugLogLevel?.let { DebugLog.level = it }
+            config.serverLogEnable?.let { ServerLog.canSend = it }
+            config.serverLogSamplingPercent?.let { ServerLog.setSamplingPercent(it) }
+            config.serverLogHandler?.let { ServerLog.setHandler(it) }
         }
     }
 }

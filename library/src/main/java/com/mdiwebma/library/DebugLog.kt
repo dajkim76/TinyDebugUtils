@@ -21,6 +21,9 @@ object DebugLog {
     var level = LEVEL_VEBOSE
 
     @JvmStatic
+    var DEBUG = false
+
+    @JvmStatic
     var writeToFile = false
         set(value) {
             field = value
@@ -31,37 +34,37 @@ object DebugLog {
 
     @JvmStatic
     fun v(tag: String, msg: String, throwable: Throwable? = null) {
-        if (!BuildConfig.DEBUG) return
+        if (!DEBUG) return
         log(LEVEL_VEBOSE, tag, msg, throwable)
     }
 
     @JvmStatic
     fun d(tag: String, msg: String, throwable: Throwable? = null) {
-        if (!BuildConfig.DEBUG) return
+        if (!DEBUG) return
         log(LEVEL_DEBUG, tag, msg, throwable)
     }
 
     @JvmStatic
     fun i(tag: String, msg: String, throwable: Throwable? = null) {
-        if (!BuildConfig.DEBUG) return
+        if (!DEBUG) return
         log(LEVEL_INFO, tag, msg, throwable)
     }
 
     @JvmStatic
     fun w(tag: String, msg: String, throwable: Throwable? = null) {
-        if (!BuildConfig.DEBUG) return
+        if (!DEBUG) return
         log(LEVEL_WARNING, tag, msg, throwable)
     }
 
     @JvmStatic
     fun e(tag: String, msg: String, throwable: Throwable? = null) {
-        if (!BuildConfig.DEBUG) return
+        if (!DEBUG) return
         log(LEVEL_ERROR, tag, msg, throwable)
     }
 
     @JvmStatic
     fun f(tag: String, msg: String, throwable: Throwable? = null) {
-        if (!BuildConfig.DEBUG) return
+        if (!DEBUG) return
         log(LEVEL_FATAL, tag, msg, throwable)
     }
 
