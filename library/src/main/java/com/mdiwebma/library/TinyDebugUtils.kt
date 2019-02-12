@@ -14,7 +14,9 @@ object TinyDebugUtils {
         ApplicationHolder.init(application)
         createDefaultNotificationChannel(application)
         LiveActivityHolder.init(application)
-        CrashHandler.init()
+        if (config == null || config.crashHandlerEnable) {
+            CrashHandler.init()
+        }
         initDebugConfig()
         applyConfig(config)
     }
@@ -51,6 +53,7 @@ object TinyDebugUtils {
         internal var serverLogEnable: Boolean? = null
         internal var serverLogSamplingPercent: Float? = null
         internal var serverLogHandler: ServerLogHandler? = null
+        internal var crashHandlerEnable: Boolean = true
 
         fun debugUtilsEnable(enable: Boolean) = apply {
             debugUtilsEnable = enable
@@ -82,6 +85,10 @@ object TinyDebugUtils {
 
         fun serverLogHandler(handler: ServerLogHandler?) = apply {
             serverLogHandler = handler
+        }
+
+        fun crashHandlerEnable(enable: Boolean) = apply {
+            this.crashHandlerEnable = enable
         }
     }
 
