@@ -4,6 +4,9 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -84,6 +87,7 @@ internal object DebugMessageHandler {
             .setTitle(data.title)
             .setMessage(data.message)
             .setCancelable(false)
+            .setNegativeButton("Copy") { d, i -> copyText(data.message) }
             .setPositiveButton("OK", null)
             .show()
     }
@@ -114,6 +118,7 @@ internal object DebugMessageHandler {
                 .setTitle(data.title)
                 .setMessage(data.message)
                 .setCancelable(false)
+                .setNegativeButton("Copy") { d, i -> copyText(data.message) }
                 .setPositiveButton("OK", null)
                 .show()
         } else {
@@ -145,5 +150,13 @@ internal object DebugMessageHandler {
         val notificationManager =
             context.getSystemService(Activity.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(data.message.hashCode(), notification)
+    }
+
+    private fun copyText(text: String?) {
+        val context = ApplicationHolder.application
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("label", text)
+        clipboard.primaryClip = clip
+        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show()
     }
 }
