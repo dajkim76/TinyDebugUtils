@@ -130,7 +130,7 @@ internal object DebugMessageHandler {
     }
 
     private fun notifyImpl(data: Data) {
-        val context = ApplicationHolder.application!!
+        val context = ApplicationHolder.application
         val intent =
             DebugMessageViewerActivity.createIntent(context, data.title, data.message)
         val pendingIntent =

@@ -19,7 +19,7 @@ internal object CrashHandler {
     @JvmStatic
     fun init() {
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
-            val context = ApplicationHolder.application!!.applicationContext
+            val context = ApplicationHolder.application
             val contentText = getContentText(context, throwable)
             val intent =
                 DebugMessageViewerActivity.createIntent(context, "Crashed!", contentText)

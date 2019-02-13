@@ -41,7 +41,7 @@ object FileLog {
             return fileOutputStream
         }
 
-        val context = ApplicationHolder.application!!
+        val context = ApplicationHolder.application
         val sb = StringBuilder()
         sb.append("log_")
         sb.append(SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(Date()))

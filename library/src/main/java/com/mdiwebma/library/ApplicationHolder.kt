@@ -5,14 +5,16 @@ import android.app.Application
 
 internal object ApplicationHolder {
 
+    private var cachedApplication: Application? = null
+
     @JvmStatic
-    var application: Application? = null
+    val application: Application
         get() {
-            return field ?: throw RuntimeException("application is null")
+            return cachedApplication ?: throw RuntimeException("application is null")
         }
 
     @JvmStatic
     fun init(application: Application) {
-        this.application = application
+        this.cachedApplication = application
     }
 }

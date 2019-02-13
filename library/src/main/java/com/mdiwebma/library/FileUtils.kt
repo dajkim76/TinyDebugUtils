@@ -11,7 +11,7 @@ internal object FileUtils {
 
     @JvmStatic
     fun isExternalStorageWritable(): Boolean {
-        val context = ApplicationHolder.application!!
+        val context = ApplicationHolder.application
         return context.checkPermission(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Process.myPid(),
@@ -34,7 +34,7 @@ internal object FileUtils {
      */
     @JvmStatic
     fun getAppExternalCacheFile(directoryName: String, fileName: String): File {
-        val context = ApplicationHolder.application!!
+        val context = ApplicationHolder.application
         val dir = File(context.externalCacheDir, directoryName)
         dir.mkdirs()
         return File(dir, fileName)
