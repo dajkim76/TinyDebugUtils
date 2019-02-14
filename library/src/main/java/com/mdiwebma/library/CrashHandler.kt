@@ -55,10 +55,8 @@ internal object CrashHandler {
             .append(Build.DISPLAY).append("\n")
         // app info
         try {
-            sb.append("App: ").append(context.packageName)
-            val info = context.packageManager.getPackageInfo(context.packageName, 0)
-            sb.append(" ").append(info.versionName).append(" (")
-                .append(info.versionCode).append(")\n")
+            sb.append("App: ").append(context.packageName).append("\n")
+            sb.append(Utils.getVersionBuildInfo().replace("\t", "\n")).append("\n")
             sb.append("OS Version:").append(Build.VERSION.SDK_INT).append("\n")
             sb.append("OS Locale: ").append(Locale.getDefault().toString()).append("\n\n")
         } catch (e: PackageManager.NameNotFoundException) {

@@ -54,6 +54,8 @@ object TinyDebugUtils {
         internal var serverLogSamplingPercent: Float? = null
         internal var serverLogHandler: ServerLogHandler? = null
         internal var crashHandlerEnable: Boolean = true
+        internal var buildTimeStamp: Long? = null
+        internal var buildGitBranchName: String? = null
 
         fun debugUtilsEnable(enable: Boolean) = apply {
             debugUtilsEnable = enable
@@ -90,6 +92,14 @@ object TinyDebugUtils {
         fun crashHandlerEnable(enable: Boolean) = apply {
             this.crashHandlerEnable = enable
         }
+
+        fun buildTimeStamp(timeStamp: Long) = apply {
+            this.buildTimeStamp = timeStamp
+        }
+
+        fun buildGitBranchName(branchName: String) = apply {
+            this.buildGitBranchName = branchName
+        }
     }
 
     private fun initDebugConfig() {
@@ -112,6 +122,8 @@ object TinyDebugUtils {
             config.serverLogEnable?.let { ServerLog.canSend = it }
             config.serverLogSamplingPercent?.let { ServerLog.setSamplingPercent(it) }
             config.serverLogHandler?.let { ServerLog.setHandler(it) }
+            config.buildTimeStamp?.let { Utils.buildTimeStamp = it }
+            config.buildGitBranchName?.let { Utils.buildGitBranchName = it }
         }
     }
 }
