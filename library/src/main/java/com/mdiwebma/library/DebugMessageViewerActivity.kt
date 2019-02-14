@@ -33,12 +33,7 @@ class DebugMessageViewerActivity : Activity() {
             .setCancelable(false)
             .setOnDismissListener { finish() }
             .setPositiveButton("OK", null)
-            .setNegativeButton("Copy") { _, _ ->
-                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("label", intent.getStringExtra(EXTRA_MESSAGE))
-                clipboard.primaryClip = clip
-                Toast.makeText(this@DebugMessageViewerActivity, "Done", Toast.LENGTH_SHORT).show()
-            }
+            .setNegativeButton("Copy") { _, _ -> Utils.copyText(intent.getStringExtra(EXTRA_MESSAGE)) }
             .setOnDismissListener { finish() }
             .show()
     }
