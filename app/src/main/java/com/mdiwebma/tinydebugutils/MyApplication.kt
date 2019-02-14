@@ -11,7 +11,9 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
-            TinyDebugUtils.init(this)
+            val config = TinyDebugUtils.Config()
+                .buildGitBranchName(BuildConfig.GIT_BRANCH_NAME)
+            TinyDebugUtils.init(this, config)
             //DebugLog.level = DebugLog.LEVEL_DISABLE
             //DebugLog.writeToFile = true
             //FileLog.canWrite = true
