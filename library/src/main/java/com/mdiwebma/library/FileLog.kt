@@ -22,13 +22,18 @@ object FileLog {
     private var logFile: File? = null
     private var fileOutputStream: FileOutputStream? = null
     private val dateFormatter = SimpleDateFormat("[yyyy.MM.dd]", Locale.getDefault())
-    private val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+    private val timeFormatter = SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault())
     private val executor = Executors.newSingleThreadExecutor()
     private var lastDayOfYear = -1
 
     @JvmStatic
-    @Synchronized
     fun write(tag: String, msg: String?) {
+        FileLog.write(null, tag, msg)
+    }
+
+    @JvmStatic
+    @Synchronized
+    fun write(level: String?, tag: String, msg: String?) {
         if (!canWrite || msg == null) return
         val threadType = if (Looper.myLooper() == Looper.getMainLooper()) "M" else "W"
         executor.execute {
@@ -44,7 +49,8 @@ object FileLog {
                 }
                 sb.append(timeFormatter.format(Date())).append(" ")
                     .append(threadType).append("/")
-                    .append(tag).append(": ")
+                level?.let { sb.append(level).append("/") }
+                sb.append(tag).append(": ")
                     .append(msg)
                     .append("\n")
                 getFileStream()?.write(sb.toString().toByteArray())

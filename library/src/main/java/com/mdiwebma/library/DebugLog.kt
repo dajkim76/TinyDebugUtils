@@ -79,16 +79,39 @@ object DebugLog {
     private fun log(logLevel: Int, tag: String, msg: String, throwable: Throwable? = null) {
         if (logLevel >= level) {
             val trace = getTrace(msg)
+            var level: String? = null
             when (logLevel) {
-                LEVEL_VEBOSE -> Log.v(tag, trace, throwable)
-                LEVEL_DEBUG -> Log.d(tag, trace, throwable)
-                LEVEL_INFO -> Log.i(tag, trace, throwable)
-                LEVEL_WARNING -> Log.w(tag, trace, throwable)
-                LEVEL_ERROR -> Log.e(tag, trace, throwable)
-                else -> Log.e(tag, trace, throwable)
+                LEVEL_VEBOSE -> {
+                    level = "V"
+                    Log.v(tag, trace, throwable)
+                }
+                LEVEL_DEBUG -> {
+                    level = "D"
+                    Log.d(tag, trace, throwable)
+                }
+                LEVEL_INFO -> {
+                    level = "I"
+                    Log.i(tag, trace, throwable)
+                }
+                LEVEL_WARNING -> {
+                    level = "W"
+                    Log.w(tag, trace, throwable)
+                }
+                LEVEL_ERROR -> {
+                    level = "E"
+                    Log.e(tag, trace, throwable)
+                }
+                LEVEL_FATAL -> {
+                    level = "F"
+                    Log.e(tag, trace, throwable)
+                }
+                else -> {
+                    level = "T"
+                    Log.e(tag, trace, throwable)
+                }
             }
             if (writeToFile || logLevel == LEVEL_FATAL) {
-                FileLog.write(tag, trace)
+                FileLog.write(level, tag, trace)
             }
         }
     }
