@@ -68,14 +68,13 @@ object FileLog {
         sb.setLength(0)
         sb.append("\n-----------------------------------------\n")
         try {
-            val info = context.packageManager.getPackageInfo(context.packageName, 0)
-            sb.append(Build.MANUFACTURER).append(" ")
-                .append(Build.MODEL).append(" ")
-                .append(Build.DISPLAY).append("\n")
-                .append(context.packageName).append(" ")
-                .append(Utils.getVersionBuildInfo().replace('\t', '/')).append(" ")
-                .append("OS Version=").append(Build.VERSION.SDK_INT).append(" ")
-                .append("OS Locale=").append(Locale.getDefault().toString())
+            sb.append("App: ").append(context.packageName).append("\n")
+                .append(Utils.getVersionBuildInfo().replace('\t', '\n')).append("\n")
+                .append("OS Version: ").append(Build.VERSION.SDK_INT).append(", ")
+                .append("OS Locale: ").append(Locale.getDefault().toString()).append("\n")
+                .append("Device: ").append(Build.MANUFACTURER).append("/")
+                .append(Build.MODEL).append("/")
+                .append(Build.DISPLAY)
         } catch (ex: PackageManager.NameNotFoundException) {
             Log.e("Exception", ex.message, ex)
         } catch (ex: Exception) {

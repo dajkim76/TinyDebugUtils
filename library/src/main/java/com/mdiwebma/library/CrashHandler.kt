@@ -49,19 +49,19 @@ internal object CrashHandler {
         // Date time
         sb.append(DateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis())))
             .append("\n")
-        // phone info
-        sb.append(Build.MANUFACTURER).append(" ")
-            .append(Build.MODEL).append(" ")
-            .append(Build.DISPLAY).append("\n")
         // app info
         try {
             sb.append("App: ").append(context.packageName).append("\n")
             sb.append(Utils.getVersionBuildInfo().replace('\t', '\n')).append("\n")
-            sb.append("OS Version:").append(Build.VERSION.SDK_INT).append("\n")
-            sb.append("OS Locale: ").append(Locale.getDefault().toString()).append("\n\n")
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
+        // phone info
+        sb.append("OS Version: ").append(Build.VERSION.SDK_INT).append(", ")
+            .append("OS Locale: ").append(Locale.getDefault().toString()).append("\n")
+            .append("Device: ").append(Build.MANUFACTURER).append("/")
+            .append(Build.MODEL).append("/")
+            .append(Build.DISPLAY).append("\n\n")
 
         return sb.toString() + Log.getStackTraceString(throwable)
     }

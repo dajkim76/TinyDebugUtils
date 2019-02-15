@@ -46,13 +46,13 @@ internal object Utils {
         val datetimeString = getBuildDatetimeString()
         val sb = StringBuilder()
 
-        sb.append("Version=")
+        sb.append("Version: ")
             .append(packageInfo.versionName)
             .append("(")
             .append(packageInfo.versionCode)
             .append(")\t")
-        buildGitBranchName?.let { sb.append("Branch=").append(it).append("\t") }
-        datetimeString?.let { sb.append("BuildTime=").append(it) }
+        buildGitBranchName?.let { sb.append("Branch: ").append(it).append("\t") }
+        datetimeString?.let { sb.append("BuildTime: ").append(it) }
         return sb.toString()
     }
 }
