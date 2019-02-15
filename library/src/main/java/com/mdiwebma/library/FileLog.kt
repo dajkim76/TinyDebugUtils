@@ -72,12 +72,10 @@ object FileLog {
             sb.append(Build.MANUFACTURER).append(" ")
                 .append(Build.MODEL).append(" ")
                 .append(Build.DISPLAY).append("\n")
-                .append(context.packageName)
-                .append(" Version:")
-                .append(info.versionName)
-                .append("(")
-                .append(info.versionCode)
-                .append(")")
+                .append(context.packageName).append(" ")
+                .append(Utils.getVersionBuildInfo().replace('\t', '/')).append(" ")
+                .append("OS Version=").append(Build.VERSION.SDK_INT).append(" ")
+                .append("OS Locale=").append(Locale.getDefault().toString())
         } catch (ex: PackageManager.NameNotFoundException) {
             Log.e("Exception", ex.message, ex)
         } catch (ex: Exception) {

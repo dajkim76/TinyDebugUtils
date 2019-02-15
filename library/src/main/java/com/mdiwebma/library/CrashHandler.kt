@@ -56,7 +56,7 @@ internal object CrashHandler {
         // app info
         try {
             sb.append("App: ").append(context.packageName).append("\n")
-            sb.append(Utils.getVersionBuildInfo().replace("\t", "\n")).append("\n")
+            sb.append(Utils.getVersionBuildInfo().replace('\t', '\n')).append("\n")
             sb.append("OS Version:").append(Build.VERSION.SDK_INT).append("\n")
             sb.append("OS Locale: ").append(Locale.getDefault().toString()).append("\n\n")
         } catch (e: PackageManager.NameNotFoundException) {
