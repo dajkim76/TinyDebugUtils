@@ -13,6 +13,8 @@ class MyApplication : Application() {
         if (BuildConfig.DEBUG) {
             val config = TinyDebugUtils.Config()
                 .buildGitBranchName(BuildConfig.GIT_BRANCH_NAME)
+                .buildTimeStamp(BuildConfig.BUILD_TIMESTAMP)
+                .debugLogWriteToFile(true)
             TinyDebugUtils.init(this, config)
             //DebugLog.level = DebugLog.LEVEL_DISABLE
             //DebugLog.writeToFile = true
