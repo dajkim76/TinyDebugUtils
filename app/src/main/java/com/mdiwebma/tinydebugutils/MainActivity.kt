@@ -43,5 +43,10 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickDebugLog(v: View) {
         DebugLog.e("TAG", "DebugLov.v")
+        object : Thread() {
+            override fun run() {
+                DebugLog.e("TAG", "DebugLov.v at thread")
+            }
+        }.start()
     }
 }
