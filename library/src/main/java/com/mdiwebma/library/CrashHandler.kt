@@ -34,7 +34,7 @@ internal object CrashHandler {
                 .build()
 
             FileLog.canWrite = true
-            FileLog.write("Crashed!", contentText)
+            FileLog.writeSync("Crashed!", contentText)
 
             val notificationManager =
                 context.getSystemService(Activity.NOTIFICATION_SERVICE) as NotificationManager

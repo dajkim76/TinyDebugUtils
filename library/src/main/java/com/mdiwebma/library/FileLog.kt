@@ -13,6 +13,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 object FileLog {
 
@@ -32,32 +33,43 @@ object FileLog {
     }
 
     @JvmStatic
-    @Synchronized
     fun write(level: String?, tag: String, msg: String?) {
         if (!canWrite || msg == null) return
         val threadType = if (Looper.myLooper() == Looper.getMainLooper()) "M" else "W"
         executor.execute {
-            try {
-                val sb = StringBuilder()
-                val calendar = Calendar.getInstance()
-                val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
-                val date = calendar.time
-
-                if (lastDayOfYear != dayOfYear) {
-                    sb.append(dateFormatter.format(date)).append("\n")
-                    lastDayOfYear = dayOfYear
-                }
-                sb.append(timeFormatter.format(Date())).append(" ")
-                    .append(threadType).append("/")
-                level?.let { sb.append(level).append("/") }
-                sb.append(tag).append(": ")
-                    .append(msg)
-                    .append("\n")
-                getFileStream()?.write(sb.toString().toByteArray())
-            } catch (ex: IOException) {
-                Log.e("Exception", ex.message, ex)
-            }
+            innerWrite(level, threadType, tag, msg)
         }
+    }
+
+    @Synchronized
+    private fun innerWrite(level: String?, threadType: String, tag: String, msg: String?) {
+        try {
+            val sb = StringBuilder()
+            val calendar = Calendar.getInstance()
+            val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
+            val date = calendar.time
+
+            if (lastDayOfYear != dayOfYear) {
+                sb.append(dateFormatter.format(date)).append("\n")
+                lastDayOfYear = dayOfYear
+            }
+            sb.append(timeFormatter.format(Date())).append(" ")
+                .append(threadType).append("/")
+            level?.let { sb.append(level).append("/") }
+            sb.append(tag).append(": ")
+                .append(msg)
+                .append("\n")
+            getFileStream()?.write(sb.toString().toByteArray())
+        } catch (ex: IOException) {
+            Log.e("Exception", ex.message, ex)
+        }
+    }
+
+    @JvmStatic
+    fun writeSync(tag: String, msg: String?) {
+        if (!canWrite || msg == null) return
+        val threadType = if (Looper.myLooper() == Looper.getMainLooper()) "M" else "W"
+        innerWrite(null, threadType, tag, msg)
     }
 
     private fun getFileStream(): FileOutputStream? {
