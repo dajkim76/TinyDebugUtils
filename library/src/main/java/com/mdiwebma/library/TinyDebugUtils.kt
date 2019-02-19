@@ -56,6 +56,7 @@ object TinyDebugUtils {
         internal var crashHandlerEnable: Boolean = true
         internal var buildTimeStamp: Long? = null
         internal var buildGitBranchName: String? = null
+        internal var assertUtilsEnable: Boolean? = null
 
         fun debugUtilsEnable(enable: Boolean) = apply {
             debugUtilsEnable = enable
@@ -100,6 +101,10 @@ object TinyDebugUtils {
         fun buildGitBranchName(branchName: String) = apply {
             this.buildGitBranchName = branchName
         }
+
+        fun assertUtilsEnable(enable: Boolean) = apply {
+            this.assertUtilsEnable = enable
+        }
     }
 
     private fun initDebugConfig() {
@@ -110,6 +115,7 @@ object TinyDebugUtils {
         DebugLog.level = DebugLog.LEVEL_VEBOSE
         ServerLog.canSend = false
         ServerLog.setHandler(null)
+        AssertUtils.DEBUG = true
     }
 
     private fun applyConfig(config: Config?) {
@@ -124,6 +130,7 @@ object TinyDebugUtils {
             config.serverLogHandler?.let { ServerLog.setHandler(it) }
             config.buildTimeStamp?.let { Utils.buildTimeStamp = it }
             config.buildGitBranchName?.let { Utils.buildGitBranchName = it }
+            config.assertUtilsEnable?.let { AssertUtils.DEBUG = it }
         }
     }
 }
