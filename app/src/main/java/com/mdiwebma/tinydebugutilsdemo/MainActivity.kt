@@ -1,11 +1,11 @@
-package com.mdiwebma.tinydebugutils
+package com.mdiwebma.tinydebugutilsdemo
 
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.mdiwebma.library.DebugLog
-import com.mdiwebma.library.DebugUtils
+import com.mdiwebma.tinydebugutils.DebugLog
+import com.mdiwebma.tinydebugutils.DebugUtils
 
 class MainActivity : AppCompatActivity() {
 

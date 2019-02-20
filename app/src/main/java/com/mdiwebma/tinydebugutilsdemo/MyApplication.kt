@@ -1,10 +1,10 @@
-package com.mdiwebma.tinydebugutils
+package com.mdiwebma.tinydebugutilsdemo
 
 import android.app.Application
 import android.util.Log
-import com.mdiwebma.library.ServerLog
-import com.mdiwebma.library.ServerLogHandler
-import com.mdiwebma.library.TinyDebugUtils
+import com.mdiwebma.tinydebugutils.ServerLog
+import com.mdiwebma.tinydebugutils.ServerLogHandler
+import com.mdiwebma.tinydebugutils.TinyDebugUtils
 
 class MyApplication : Application() {
 

@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.mdiwebma.tinydebugutils"
+        applicationId "com.mdiwebma.tinydebugutilsdemo"
         minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
