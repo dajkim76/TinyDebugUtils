@@ -13,7 +13,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 object FileLog {
 
@@ -35,7 +34,8 @@ object FileLog {
     @JvmStatic
     fun write(level: String?, tag: String, msg: String?) {
         if (!canWrite || msg == null) return
-        val threadType = if (Looper.myLooper() == Looper.getMainLooper()) "M" else "W"
+        val threadType =
+            if (Looper.myLooper() == Looper.getMainLooper()) "main" else Thread.currentThread().id.toString()
         executor.execute {
             innerWrite(level, threadType, tag, msg)
         }
@@ -53,7 +53,7 @@ object FileLog {
                 sb.append(dateFormatter.format(date)).append("\n")
                 lastDayOfYear = dayOfYear
             }
-            sb.append(timeFormatter.format(Date())).append(" ")
+            sb.append(timeFormatter.format(date)).append(" ")
                 .append(threadType).append("/")
             level?.let { sb.append(level).append("/") }
             sb.append(tag).append(": ")
@@ -68,7 +68,8 @@ object FileLog {
     @JvmStatic
     fun writeSync(tag: String, msg: String?) {
         if (!canWrite || msg == null) return
-        val threadType = if (Looper.myLooper() == Looper.getMainLooper()) "M" else "W"
+        val threadType =
+            if (Looper.myLooper() == Looper.getMainLooper()) "main" else Thread.currentThread().id.toString()
         innerWrite(null, threadType, tag, msg)
     }
 

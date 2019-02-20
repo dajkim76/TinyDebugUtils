@@ -28,4 +28,16 @@
 	public static void *** (...);
 }
 
+-assumenosideeffects class com.mdiwebma.library.FileLog {
+	public static void *** (...);
+}
+
+-assumenosideeffects class com.mdiwebma.library.ServerLog {
+	public static void *** (...);
+}
+
+-assumenosideeffects class com.mdiwebma.library.AssertUtils {
+	public static void *** (...);
+}
+
 -keepattributes SourceFile,LineNumberTable

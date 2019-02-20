@@ -30,7 +30,7 @@ internal object CrashHandler {
                 .setContentTitle("Crashed!")
                 .setContentText(contentText)
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
+                .setAutoCancel(false)
                 .build()
 
             FileLog.canWrite = true

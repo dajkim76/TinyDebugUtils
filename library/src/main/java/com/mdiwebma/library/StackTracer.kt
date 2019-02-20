@@ -6,7 +6,6 @@ internal object StackTracer {
         "dalvik.system.VMStack.",
         "com.mdiwebma.library.StackTracer.",
         "com.mdiwebma.library.DebugUtils.",
-        "com.mdiwebma.library.AssertUtils.",
         "java.lang.Thread."
     )
 
