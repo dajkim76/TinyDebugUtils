@@ -1,11 +1,11 @@
-package com.mdiwebma.library
+package com.mdiwebma.tinydebugutils
 
 internal object StackTracer {
 
     private val ignoredStackList = arrayOf(
         "dalvik.system.VMStack.",
-        "com.mdiwebma.library.StackTracer.",
-        "com.mdiwebma.library.DebugUtils.",
+        "com.mdiwebma.tinydebugutils.StackTracer.",
+        "com.mdiwebma.tinydebugutils.DebugUtils.",
         "java.lang.Thread."
     )
 

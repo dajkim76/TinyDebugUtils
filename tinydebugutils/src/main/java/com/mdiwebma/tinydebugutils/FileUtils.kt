@@ -1,4 +1,4 @@
-package com.mdiwebma.library
+package com.mdiwebma.tinydebugutils
 
 import android.Manifest
 import android.content.pm.PackageManager

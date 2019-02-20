@@ -1,4 +1,4 @@
-package com.mdiwebma.library
+package com.mdiwebma.tinydebugutils
 
 import android.content.ClipData
 import android.content.ClipboardManager

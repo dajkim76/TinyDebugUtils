@@ -1,4 +1,4 @@
-package com.mdiwebma.library
+package com.mdiwebma.tinydebugutils
 
 import android.util.Log
 
@@ -118,7 +118,7 @@ object DebugLog {
 
     private val ignoredStackList = arrayOf(
         "dalvik.system.VMStack.",
-        "com.mdiwebma.library.DebugLog.",
+        "com.mdiwebma.tinydebugutils.DebugLog.",
         "java.lang.Thread."
     )
 

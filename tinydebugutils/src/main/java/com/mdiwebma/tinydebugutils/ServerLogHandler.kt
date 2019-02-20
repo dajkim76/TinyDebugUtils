@@ -1,4 +1,4 @@
-package com.mdiwebma.library
+package com.mdiwebma.tinydebugutils
 
 interface ServerLogHandler {
 
