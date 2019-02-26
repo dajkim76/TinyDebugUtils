@@ -47,23 +47,23 @@ android {
 
 Proguard settings(proguard-rules.pro)
 <pre><code>
--assumenosideeffects class com.mdiwebma.library.DebugUtils {
+-assumenosideeffects class com.mdiwebma.tinydebugutils.DebugUtils {
 	public static void *** (...);
 }
 
--assumenosideeffects class com.mdiwebma.library.DebugLog {
+-assumenosideeffects class com.mdiwebma.tinydebugutils.DebugLog {
 	public static void *** (...);
 }
 
--assumenosideeffects class com.mdiwebma.library.FileLog {
+-assumenosideeffects class com.mdiwebma.tinydebugutils.FileLog {
 	public static void *** (...);
 }
 
--assumenosideeffects class com.mdiwebma.library.ServerLog {
+-assumenosideeffects class com.mdiwebma.tinydebugutils.ServerLog {
 	public static void *** (...);
 }
 
--assumenosideeffects class com.mdiwebma.library.AssertUtils {
+-assumenosideeffects class com.mdiwebma.tinydebugutils.AssertUtils {
 	public static void *** (...);
 }
 </code></pre>
@@ -88,11 +88,11 @@ if (BuildConfig.DEBUG) {
 </code></pre>
 Do not strip DebugUtils, ServerLog
 <pre><code>
-#-assumenosideeffects class com.mdiwebma.library.DebugUtils {
+#-assumenosideeffects class com.mdiwebma.tinydebugutils.DebugUtils {
 #	public static void *** (...);
 #}
 
-#-assumenosideeffects class com.mdiwebma.library.ServerLog {
+#-assumenosideeffects class com.mdiwebma.tinydebugutils.ServerLog {
 #	public static void *** (...);
 #}
 </code></pre>
